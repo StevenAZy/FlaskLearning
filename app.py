@@ -53,7 +53,7 @@ def initdb(drop):
     if drop:
         db.drop_all()
     db.create_all()
-    click.echo('Initialize database.')
+    click.echo('Initialized database.')
 
 
 @app.cli.command()
@@ -139,7 +139,7 @@ def login():
             flash('Login success.')
             return redirect(url_for('index'))
 
-        flash('Invalid username or password')
+        flash('Invalid username or password.')
         return redirect(url_for('login'))
 
     return render_template('login.html')
@@ -188,12 +188,12 @@ def edit(movie_id):
 
         if not title or not year or len(year) != 4 or len(title) > 60:
             flash('Invalid input.')
-            return redirect(url_for('edit'), movie_id=movie_id)
+            return redirect(url_for('edit', movie_id=movie_id))
 
         movie.title = title
         movie.year = year
         db.session.commit()
-        flash('Item update.')
+        flash('Item updated.')
         return redirect(url_for('index'))
 
     return render_template('edit.html', movie=movie)
@@ -209,19 +209,19 @@ def delete(movie_id):
     return redirect(url_for('index'))
 
 
-@app.route('/setting', methods=['GET', 'POST'])
+@app.route('/settings', methods=['GET', 'POST'])
 @login_required
 def setting():
     if request.method=='POST':
         name = request.form['name']
 
         if not name or len(name) > 20:
-            flash('Invalid input')
+            flash('Invalid input.')
             return redirect(url_for('setting'))
 
         current_user.name = name
         db.session.commit()
-        flash('Setting updated.')
+        flash('Settings updated.')
         return redirect(url_for('index'))
 
     return render_template('setting.html')
