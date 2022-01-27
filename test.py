@@ -2,7 +2,10 @@ from turtle import title
 import unittest
 from urllib import response
 
-from app import app, db, Movie, User, forge, initdb
+from watchlist import app, db
+from watchlist.models import Movie, User
+from watchlist.commands import forge, initdb
+
 
 class AppTestCase(unittest.TestCase):
     def setUp(self):

@@ -1,41 +1,7 @@
-from crypt import methods
-import os
-import sys
-from turtle import title
 import click
 
-from glob import escape
-from flask import Flask, flash, redirect, render_template, url_for, request
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from flask_sqlalchemy import SQLAlchemy
-
-
-
-
-
-
-
-
-
-# Create Database
-class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(20))
-    username = db.Column(db.String(20))
-    password_hash = db.Column(db.String(128))
-
-    def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-
-    def validate_password(self, password):
-        return check_password_hash(self.password_hash, password)
-
-class Movie(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(60))
-    year = db.Column(db.String(4))
-
+from watchlist import app, db
+from watchlist.models import User, Movie
 
 @app.cli.command()
 @click.option('--drop', is_flag=True, help='Create after drop.')
@@ -97,31 +63,3 @@ def forge():
     
     db.session.commit()
     click.echo('Done.')
-
-
-
-
-
-# @app.route('/')
-# def hello():
-#     return 'Welcome to My Watchlist'
-    
-
-# @app.route('/home')
-# def home():
-#     return '<h1>Hello Totoro!</h1><img src="http://helloflask.com/totoro.gif">'
-
-
-# @app.route('/user/<name>')
-# def user_page(name):
-#     # return 'User Page'
-#     return 'User : %s' % escape(name)
-
-
-# @app.route('/test')
-# def test_url():
-#     print(url_for('hello'))
-#     print(url_for('user_page', name='stevenazy'))
-#     print(url_for('test_url'))
-#     print(url_for('test_url', num=2))
-#     return 'Test Page'
